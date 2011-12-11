@@ -1,8 +1,14 @@
-require 'rubygems'
-require 'sinatra'
+require './environment'
+require './io_improv'
 
-require 'ioimprov'
-require 'lib/nowww'
+Dir["#{File.dirname(__FILE__)}/lib/*.rb"].sort.each { |file| require file }
 
 use NoWWW
-run Sinatra::Application
+
+use Rack::ReverseProxy do
+  reverse_proxy '/chicago', 'http://chicago.ioimprov.com/', :preserve_host => false
+end
+
+map '/' do
+  run IoImprov
+end
