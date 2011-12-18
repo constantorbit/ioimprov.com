@@ -23,6 +23,8 @@ require 'capistrano/ext/multistage'
   ssh_options[:forward_agent] = true
   default_run_options[:pty] = true
 
+  set(:bundle_cmd) { "/opt/ruby-enterprise/bin/bundle" }
+
 ##### TASKS #####
   after "deploy", "deploy:cleanup"
 
